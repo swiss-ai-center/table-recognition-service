@@ -19,15 +19,18 @@ from common_code.common.models import FieldDescription, ExecutionUnitTag
 from contextlib import asynccontextmanager
 
 # Imports required by the service's model
-# TODO: 1. ADD REQUIRED IMPORTS (ALSO IN THE REQUIREMENTS.TXT)
+from model.main_ import main as main_model
+from utils import custom_parse_args, save_image, prepare_zip_result
+import json
+import shutil
 
 settings = get_settings()
 
 
 class MyService(Service):
-    # TODO: 2. CHANGE THIS DESCRIPTION
+
     """
-    My service model
+    My table extraction service model
     """
 
     # Any additional fields must be excluded for Pydantic to work
@@ -36,9 +39,8 @@ class MyService(Service):
 
     def __init__(self):
         super().__init__(
-            # TODO: 3. CHANGE THE SERVICE NAME AND SLUG
-            name="My Service",
-            slug="my-service",
+            name="My Table Extraction Service",
+            slug="my-table-extraction-service",
             url=settings.service_url,
             summary=api_summary,
             description=api_description,
@@ -52,10 +54,16 @@ class MyService(Service):
                         FieldDescriptionType.IMAGE_JPEG,
                     ],
                 ),
+                FieldDescription(
+                    name="layout",
+                    type=[
+                        FieldDescriptionType.APPLICATION_JSON,
+                    ],
+                ),
             ],
             data_out_fields=[
                 FieldDescription(
-                    name="result", type=[FieldDescriptionType.APPLICATION_JSON]
+                    name="result", type=[FieldDescriptionType.APPLICATION_ZIP]
                 ),
             ],
             tags=[
@@ -64,7 +72,7 @@ class MyService(Service):
                     acronym=ExecutionUnitTagAcronym.IMAGE_PROCESSING,
                 ),
             ],
-            has_ai=False,
+            has_ai=True,
             # OPTIONAL: CHANGE THE DOCS URL TO YOUR SERVICE'S DOCS
             docs_url="https://docs.swiss-ai-center.ch/reference/core-concepts/service/",
         )
@@ -75,13 +83,32 @@ class MyService(Service):
         # NOTE that the data is a dictionary with the keys being the field names set in the data_in_fields
         # The objects in the data variable are always bytes. It is necessary to convert them to the desired type
         # before using them.
-        # raw = data["image"].data
-        # input_type = data["image"].type
-        # ... do something with the raw data
+        args = custom_parse_args(
+            vis_font_path="Fonts/Arial.ttf",
+            use_gpu=False,
+            image_dir="img_dir",
+            det_model_dir = "model/inference_table/en_PP-OCRv3_det_infer",
+            rec_model_dir = "model/inference_table/en_PP-OCRv3_rec_infer",
+            table_model_dir="model/inference_table/model_final",
+            rec_char_dict_path = "model/dict_table/en_dict.txt",
+            table_char_dict_path="model/dict_table/table_structure_dict.txt",
+            output="../output",
+            layout = False,
+        )
+
+        save_image(data)
+        layout_res = json.loads(data["layout"].data)
+        main_model(args, layout_res)
+        zip_data = prepare_zip_result("../output/structure/image")
+
+        shutil.rmtree("img_dir")
+        shutil.rmtree("../output")
+
+
 
         # NOTE that the result must be a dictionary with the keys being the field names set in the data_out_fields
         return {
-            "result": TaskData(data=..., type=FieldDescriptionType.APPLICATION_JSON)
+            "result": TaskData(data=zip_data, type=FieldDescriptionType.APPLICATION_ZIP)
         }
 
 
@@ -136,11 +163,16 @@ async def lifespan(app: FastAPI):
 
 
 # TODO: 6. CHANGE THE API DESCRIPTION AND SUMMARY
-api_description = """My service
-bla bla bla...
+api_description = """Table extraction service is designed to streamline table extraction from documents. 
+It accepts an image or PDF document along with a JSON file containing layout analysis data, 
+identifying and extracting tables using SLANet from PaddleOCR. 
+The extracted tables are saved as individual Excel files, which are then packaged into a downloadable ZIP file. 
+This service is optimized for automated table handling in digitized documents, 
+providing reliable Excel outputs that integrate smoothly into data workflows, 
+enhancing document processing and table digitization accuracy.
 """
-api_summary = """My service
-bla bla bla...
+api_summary = """ Table extraction service processes document-based input 
+and utilizes SLANet from PaddleOCR for robust table extraction.
 """
 
 # Define the FastAPI application with information

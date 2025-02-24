@@ -19,6 +19,7 @@ os.environ["FLAGS_allocator_strategy"] = "auto_growth"
 
 logger = get_logger()
 
+
 class StructureSystem(object):
     def __init__(self, args):
         self.mode = args.mode

@@ -5,12 +5,11 @@ import numpy as np
 import cv2
 import tempfile
 import zipfile
-from io import BytesIO
 
 
 def prepare_zip_result(input_dir):
     # Create a temporary directory to store the ZIP contents
-    with tempfile.TemporaryDirectory() as tmpdirname:
+    with tempfile.TemporaryDirectory():
         # Define the in-memory buffer for the ZIP file
         zip_buffer = io.BytesIO()
 

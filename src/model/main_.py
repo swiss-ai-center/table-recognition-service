@@ -27,14 +27,8 @@ import numpy as np
 import time
 import logging
 from copy import deepcopy
-
-from paddle.utils import try_import
 from paddleocr.ppocr.utils.utility import get_image_file_list, check_and_read
 from paddleocr.ppocr.utils.logging import get_logger
-from paddleocr.ppocr.utils.visual import draw_ser_results, draw_re_results
-from paddleocr.tools.infer.predict_system import TextSystem
-from paddleocr.tools.infer.predict_rec import TextRecognizer
-from paddleocr.ppstructure.layout.predict_layout import LayoutPredictor
 from paddleocr.ppstructure.table.predict_table import TableSystem, to_excel
 from paddleocr.ppstructure.utility import parse_args, draw_structure_result, cal_ocr_word_box
 
@@ -48,7 +42,7 @@ class StructureSystem(object):
         if self.mode == "structure":
             if not args.show_log:
                 logger.setLevel(logging.INFO)
-            if args.layout == False and args.ocr == True:
+            if args.layout is False and args.ocr is True:
                 args.ocr = False
                 logger.warning(
                     "When args.layout is false, args.ocr is automatically set to false"
@@ -66,9 +60,6 @@ class StructureSystem(object):
                     )
                 else:
                     self.table_system = TableSystem(args)
-
-
-
         self.return_word_box = args.return_word_box
 
     def __call__(self, img, layout_res, return_ocr_result_in_table=False, img_idx=0):
@@ -82,7 +73,6 @@ class StructureSystem(object):
             "all": 0,
         }
         start = time.time()
-
 
         if self.mode == "structure":
             ori_im = img.copy()
@@ -147,9 +137,6 @@ class StructureSystem(object):
             end = time.time()
             time_dict["all"] = end - start
             return res_list, time_dict
-
-
-
         return None, None
 
     def _predict_text(self, img):
@@ -221,10 +208,6 @@ class StructureSystem(object):
             return False
         return True
 
-
-
-
-
 def load_structure_res(output_folder, img_name, img_idx=0):
     save_folder = os.path.join(args.output, "structure")
     # Construct the path to the .txt file
@@ -288,7 +271,6 @@ def main(args, layout_res):
         img, flag_gif, flag_pdf = check_and_read(image_file)
         img_name = os.path.basename(image_file).split(".")[0]
 
-
         if not flag_gif and not flag_pdf:
             img = cv2.imread(image_file)
 
@@ -314,8 +296,6 @@ def main(args, layout_res):
             if res != []:
                 cv2.imwrite(img_save_path, draw_img)
                 logger.info("result save to {}".format(img_save_path))
-
-
 
         logger.info("Predict time : {:.3f}s".format(time_dict["all"]))
 

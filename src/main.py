@@ -87,13 +87,13 @@ class MyService(Service):
             vis_font_path="Fonts/Arial.ttf",
             use_gpu=False,
             image_dir="img_dir",
-            det_model_dir = "model/inference_table/en_PP-OCRv3_det_infer",
-            rec_model_dir = "model/inference_table/en_PP-OCRv3_rec_infer",
+            det_model_dir="model/inference_table/en_PP-OCRv3_det_infer",
+            rec_model_dir="model/inference_table/en_PP-OCRv3_rec_infer",
             table_model_dir="model/inference_table/model_final",
-            rec_char_dict_path = "model/dict_table/en_dict.txt",
+            rec_char_dict_path="model/dict_table/en_dict.txt",
             table_char_dict_path="model/dict_table/table_structure_dict.txt",
             output="../output",
-            layout = False,
+            layout=False,
         )
 
         save_image(data)
@@ -103,9 +103,6 @@ class MyService(Service):
 
         shutil.rmtree("img_dir")
         shutil.rmtree("../output")
-
-
-
         # NOTE that the result must be a dictionary with the keys being the field names set in the data_out_fields
         return {
             "result": TaskData(data=zip_data, type=FieldDescriptionType.APPLICATION_ZIP)
@@ -163,15 +160,15 @@ async def lifespan(app: FastAPI):
 
 
 # TODO: 6. CHANGE THE API DESCRIPTION AND SUMMARY
-api_description = """Table recognition service is designed to streamline table recognition from documents. 
-It accepts an image or PDF document along with a JSON file containing layout analysis data, 
-identifying and extracting tables using SLANet from PaddleOCR. 
-The extracted tables are saved as individual Excel files, which are then packaged into a downloadable ZIP file. 
-This service is optimized for automated table handling in digitized documents, 
-providing reliable Excel outputs that integrate smoothly into data workflows, 
+api_description = """Table recognition service is designed to streamline table recognition from documents.
+It accepts an image or PDF document along with a JSON file containing layout analysis data,
+identifying and extracting tables using SLANet from PaddleOCR.
+The extracted tables are saved as individual Excel files, which are then packaged into a downloadable ZIP file.
+This service is optimized for automated table handling in digitized documents,
+providing reliable Excel outputs that integrate smoothly into data workflows,
 enhancing document processing and table digitization accuracy.
 """
-api_summary = """ Table recognition service processes document-based input 
+api_summary = """ Table recognition service processes document-based input
 and utilizes a newly trained SLANet from PaddleOCR for robust table recognition.
 """
 

@@ -1,29 +1,8 @@
-#Copyright (c) 2020 PaddlePaddle Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import os
 import sys
 import subprocess
-
-__dir__ = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(__dir__)
-sys.path.insert(0, os.path.abspath(os.path.join(__dir__, "../")))
-
-os.environ["FLAGS_allocator_strategy"] = "auto_growth"
 import cv2
 import json
-import numpy as np
 import time
 import logging
 from copy import deepcopy
@@ -32,8 +11,13 @@ from paddleocr.ppocr.utils.logging import get_logger
 from paddleocr.ppstructure.table.predict_table import TableSystem, to_excel
 from paddleocr.ppstructure.utility import parse_args, draw_structure_result, cal_ocr_word_box
 
-logger = get_logger()
+__dir__ = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(__dir__)
+sys.path.insert(0, os.path.abspath(os.path.join(__dir__, "../")))
 
+os.environ["FLAGS_allocator_strategy"] = "auto_growth"
+
+logger = get_logger()
 
 class StructureSystem(object):
     def __init__(self, args):
@@ -208,6 +192,7 @@ class StructureSystem(object):
             return False
         return True
 
+
 def load_structure_res(output_folder, img_name, img_idx=0):
     save_folder = os.path.join(args.output, "structure")
     # Construct the path to the .txt file
@@ -224,6 +209,7 @@ def load_structure_res(output_folder, img_name, img_idx=0):
             results.append(region)
 
     return results
+
 
 def save_structure_res(res, save_folder, img_name, img_idx=0):
     excel_save_folder = os.path.join(save_folder, img_name)
@@ -258,7 +244,7 @@ def save_structure_res(res, save_folder, img_name, img_idx=0):
 def main(args, layout_res):
     image_file_list = get_image_file_list(args.image_dir)
     image_file_list = image_file_list
-    image_file_list = image_file_list[args.process_id :: args.total_process_num]
+    image_file_list = image_file_list[args.process_id::args.total_process_num]
 
     if not args.use_pdf2docx_api:
         structure_sys = StructureSystem(args)
@@ -282,7 +268,6 @@ def main(args, layout_res):
         else:
             imgs = img
 
-        all_res = []
         for index, img in enumerate(imgs):
             res, time_dict = structure_sys(img, layout_res, img_idx=index)
             img_save_path = os.path.join(

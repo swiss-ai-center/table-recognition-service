@@ -163,7 +163,7 @@ async def lifespan(app: FastAPI):
 
 
 # TODO: 6. CHANGE THE API DESCRIPTION AND SUMMARY
-api_description = """Table extraction service is designed to streamline table extraction from documents. 
+api_description = """Table recognition service is designed to streamline table recognition from documents. 
 It accepts an image or PDF document along with a JSON file containing layout analysis data, 
 identifying and extracting tables using SLANet from PaddleOCR. 
 The extracted tables are saved as individual Excel files, which are then packaged into a downloadable ZIP file. 
@@ -171,8 +171,8 @@ This service is optimized for automated table handling in digitized documents,
 providing reliable Excel outputs that integrate smoothly into data workflows, 
 enhancing document processing and table digitization accuracy.
 """
-api_summary = """ Table extraction service processes document-based input 
-and utilizes SLANet from PaddleOCR for robust table extraction.
+api_summary = """ Table recognition service processes document-based input 
+and utilizes a newly trained SLANet from PaddleOCR for robust table recognition.
 """
 
 # Define the FastAPI application with information

@@ -153,7 +153,6 @@ async def lifespan(app: FastAPI):
         await service_service.graceful_shutdown(my_service, engine_url)
 
 
-
 api_description = """
 Inputs:
 - Document Image: An image of the document containing tables (JPEG, PNG).

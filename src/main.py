@@ -166,7 +166,8 @@ Outputs:
 Model Specifications:
 - Model: SLANet
 - Version: 1 M
-- Training Dataset: [PubTabNet](https://github.com/ibm-aur-nlp/PubTabNet) + [SynthTabNet](https://github.com/IBM/SynthTabNet)
+- Training Dataset: [PubTabNet](https://github.com/ibm-aur-nlp/PubTabNet) 
++ [SynthTabNet](https://github.com/IBM/SynthTabNet)
 - Model Size: 9.2 MB
 - Reference : [SLANet](https://github.com/PaddlePaddle/PaddleOCR)
 

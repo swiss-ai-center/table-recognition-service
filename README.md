@@ -1,53 +1,25 @@
-# Create a new service (generic) template
+# Table Recognition Service
 
-This repository contains the Python + FastAPI template to create a service
-without a model or from an existing model compatible with the Core engine.
+## Overview
 
-Please read the documentation at
-<https://docs.swiss-ai-center.ch/how-to-guides/how-to-create-a-new-service> to
-understand how to use this template.
+The Table Recognition Service is a high-performance system built on the Swiss AI Center Core Engine,
+designed for table recognition of image-based documents. It takes an image-based document and the results of a prior 
+Layout Analysis service as input and provides:
 
-## Guidelines
+    A ZIP file containing:
+        The CSV files of the tables detected.
 
-TODO: Add instructions on how to edit this template.
 
-### Publishing and deploying using a CI/CD pipeline
+This service is inspired by state-of-the-art research and optimized for real-time performance on mobile and CPU devices,
+leveraging PaddlePaddle's innovative detection architecture.
 
-This is the recommended way to publish and deploy your service if you have
-access to GitHub Actions or GitLab CI.
+## References
 
-TODO
 
-### Publishing and deploying manually
+[SLANet](https://github.com/PaddlePaddle/PaddleOCR)
 
-This is the recommended way to publish and deploy your service if you do not
-have access to GitHub Actions or GitLab CI or do not want to use these services.
+[SLANet 1M](https://github.com/swiss-ai-center/SLANet_1M)
 
-TODO
+_Check the [related documentation](https://docs.swiss-ai-center.ch/reference/core-concepts/service/) 
+for more information._
 
-## Checklist
-
-These checklists allow you to ensure everything is set up correctly.
-
-### Common tasks
-
-- [ ] Rename the project in the [`pyproject.toml`](./pyproject.toml) file
-- [x] Add files that must be ignored to the [`.gitignore`](.gitignore) configuration file
-- [ ] TODO
-
-### Publishing and deploying using a CI/CD pipeline
-
-> [!NOTE]  
-> This checklist is specific to the _Publishing and deploying using a CI/CD
-> pipeline_ section.
-
-- [x] Add the environment variables
-- [ ] TODO
-
-### Publishing and deploying manually
-
-> [!NOTE]  
-> This checklist is specific to the _Publishing and deploying manually_ section.
-
-- [x] Edit the [`.env`](.env) configuration file
-- [ ] TODO

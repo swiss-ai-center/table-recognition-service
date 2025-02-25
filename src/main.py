@@ -39,13 +39,12 @@ class MyService(Service):
 
     def __init__(self):
         super().__init__(
-            name="My Table Extraction Service",
-            slug="my-table-extraction-service",
+            name="Table Recognition Service",
+            slug="table-recognition-service",
             url=settings.service_url,
             summary=api_summary,
             description=api_description,
             status=ServiceStatus.AVAILABLE,
-            # TODO: 4. CHANGE THE INPUT AND OUTPUT FIELDS, THE TAGS AND THE HAS_AI VARIABLE
             data_in_fields=[
                 FieldDescription(
                     name="image",
@@ -78,7 +77,6 @@ class MyService(Service):
         )
         self._logger = get_logger(settings)
 
-    # TODO: 5. CHANGE THE PROCESS METHOD (CORE OF THE SERVICE)
     def process(self, data):
         # NOTE that the data is a dictionary with the keys being the field names set in the data_in_fields
         # The objects in the data variable are always bytes. It is necessary to convert them to the desired type
@@ -159,24 +157,37 @@ async def lifespan(app: FastAPI):
         await service_service.graceful_shutdown(my_service, engine_url)
 
 
-# TODO: 6. CHANGE THE API DESCRIPTION AND SUMMARY
-api_description = """Table recognition service is designed to streamline table recognition from documents.
-It accepts an image or PDF document along with a JSON file containing layout analysis data,
-identifying and extracting tables using SLANet from PaddleOCR.
-The extracted tables are saved as individual Excel files, which are then packaged into a downloadable ZIP file.
-This service is optimized for automated table handling in digitized documents,
-providing reliable Excel outputs that integrate smoothly into data workflows,
-enhancing document processing and table digitization accuracy.
+
+api_description = """
+Inputs:
+- Document Image: An image of the document containing tables (JPEG, PNG).
+- Layout Analysis Results: JSON results from a prior layout analysis model, which provides bounding boxes (bboxes)
+    for potential tables in the document.
+
+Outputs:
+- A ZIP file containing all the detected tables in CSV format.
+
+Model Specifications:
+- Model: SLANet
+- Version: 1 M
+- Training Dataset: [PubTabNet](https://github.com/ibm-aur-nlp/PubTabNet) + [SynthTabNet](https://github.com/IBM/SynthTabNet)
+- Model Size: 9.2 MB
+- Reference : [SLANet](https://github.com/PaddlePaddle/PaddleOCR)
+
+Capabilities:
+
+    Processes bounding boxes provided by the layout model to crop the regions of interest.
+    Extracts table content and structure from cropped images.
+    Generates well-structured CSV files from table data.
 """
 api_summary = """ Table recognition service processes document-based input
 and utilizes a newly trained SLANet from PaddleOCR for robust table recognition.
 """
 
 # Define the FastAPI application with information
-# TODO: 7. CHANGE THE API TITLE, VERSION, CONTACT AND LICENSE
 app = FastAPI(
     lifespan=lifespan,
-    title="Sample Service API.",
+    title="Table Recognition API.",
     description=api_description,
     version="0.0.1",
     contact={

@@ -35,7 +35,7 @@ class MyService(Service):
 
     def __init__(self):
         super().__init__(
-            name="Table Recognition Service",
+            name="Table Recognition",
             slug="table-recognition-service",
             url=settings.service_url,
             summary=api_summary,

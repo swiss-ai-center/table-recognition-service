@@ -29,10 +29,6 @@ settings = get_settings()
 
 class MyService(Service):
 
-    """
-    My table extraction service model
-    """
-
     # Any additional fields must be excluded for Pydantic to work
     _model: object
     _logger: Logger

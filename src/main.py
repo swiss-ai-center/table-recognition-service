@@ -78,7 +78,7 @@ class MyService(Service):
         # The objects in the data variable are always bytes. It is necessary to convert them to the desired type
         # before using them.
         args = custom_parse_args(
-            vis_font_path="Fonts/Arial.ttf",
+            vis_font_path="Fonts/arial.ttf",
             use_gpu=False,
             image_dir="img_dir",
             det_model_dir="model/inference_table/en_PP-OCRv3_det_infer",

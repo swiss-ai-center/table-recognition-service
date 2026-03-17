@@ -1,3 +1,4 @@
+# @Deprecated: This file is deprecated. Please use pyproject.toml instead.
 common-code[test] @ git+https://github.com/swiss-ai-center/common-code.git@main
 paddleocr==2.8.0
 paddlepaddle==3.0.0b1
@@ -16,5 +17,4 @@ pillow==11.0.0
 PyYAML==6.0.1
 requests==2.32.3
 albumentations==1.4.10
-# to be compatible with albumentations
 albucore==0.0.13

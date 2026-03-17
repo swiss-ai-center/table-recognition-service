@@ -7,7 +7,6 @@ from common_code.common.models import FieldDescription, ExecutionUnitTag
 from common_code.tasks.models import TaskData
 # Imports required by the service's model
 from model.main_ import main as main_model
-from utils import custom_parse_args, save_image, prepare_zip_result
 import json
 import shutil
 from paddleocr.ppstructure.utility import parse_args

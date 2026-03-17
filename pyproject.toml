@@ -1,6 +1,30 @@
 [project]
 name = "table-recognition-service"
+version = "1.0.0"
 
+requires-python = ">=3.11, <3.13"
+dependencies = [
+    "albucore>=0.0.24",
+    "albumentations>=2.0.8",
+    "common-code[test] @ git+https://github.com/swiss-ai-center/common-code.git@main",
+    "cython>=3.2.4",
+    "imgaug>=0.4.0",
+    "lmdb>=1.8.1",
+    "numpy>=2.4.3",
+    "openpyxl>=3.1.5",
+    "paddleocr>=2.10.0",
+    "paddlepaddle>=3.3.0",
+    "pillow>=12.1.1",
+    "premailer>=3.10.0",
+    "pyclipper>=1.4.0",
+    "pyyaml>=6.0.3",
+    "rapidfuzz>=3.14.3",
+    "requests>=2.32.5",
+    "scikit-image>=0.26.0",
+    "setuptools>=82.0.1",
+    "shapely>=2.1.2",
+    "tqdm>=4.67.3",
+]
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]
 addopts = "--cov-config=.coveragerc --cov-report xml --cov-report term-missing --cov=./src"

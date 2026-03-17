@@ -29,6 +29,6 @@ EXPOSE 80
 
 # Switch to src directory
 WORKDIR "/app/src"
-
+ENTRYPOINT ["uv", "run"]
 # Command to run on start
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]

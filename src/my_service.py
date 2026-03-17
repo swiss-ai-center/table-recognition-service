@@ -125,6 +125,7 @@ class MyService(Service):
             "result": TaskData(data=zip_data, type=FieldDescriptionType.APPLICATION_ZIP)
         }
 
+
 def prepare_zip_result(input_dir):
     # Create a temporary directory to store the ZIP contents
     with tempfile.TemporaryDirectory():
